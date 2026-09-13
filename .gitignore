@@ -36,6 +36,8 @@
 
 # Visual Studio cache directory
 .vs/
+.vscode/
+.idea/
 
 # Gradle cache directory
 .gradle/
@@ -104,3 +106,9 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+#macOS
+.DS_STORE
+
+# Vuforia package
+Packages/com.ptc.vuforia.engine-11.4.4.tgz
