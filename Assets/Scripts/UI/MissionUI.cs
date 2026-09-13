@@ -16,6 +16,15 @@ namespace UI
         
         [SerializeField] 
         private Button startMissionButton;
+        
+        [SerializeField] 
+        private GameObject missionPanel;
+        
+        [SerializeField] 
+        private GameObject missionCompletePanel;
+        
+        [SerializeField] 
+        private Button playAgainButton;
 
         private void Start()
         {
@@ -36,8 +45,27 @@ namespace UI
                 Debug.LogError("MissionUI: Start Mission Button is not assigned.");
                 return;
             }
+            
+            if (missionPanel == null)
+            {
+                Debug.LogError("MissionUI: Mission Panel is not assigned.");
+                return;
+            }
 
+            if (missionCompletePanel == null)
+            {
+                Debug.LogError("MissionUI: Mission Complete Panel is not assigned.");
+                return;
+            }
+
+            if (playAgainButton == null)
+            {
+                Debug.LogError("MissionUI: Play Again Button is not assigned.");
+                return;
+            }
+            
             startMissionButton.onClick.AddListener(OnStartMissionClicked);
+            playAgainButton.onClick.AddListener(OnPlayAgainClicked);
 
             UpdateUI();
         }
@@ -49,6 +77,9 @@ namespace UI
 
         private void UpdateUI()
         {
+            missionPanel.SetActive(true);
+            missionCompletePanel.SetActive(false);
+            
             switch (missionManager.CurrentState)
             {
                 case MissionManager.MissionState.Waiting:
@@ -84,8 +115,8 @@ namespace UI
                     break;
 
                 case MissionManager.MissionState.MissionComplete:
-                    missionStatusText.text = "Mission Completed!";
-                    startMissionButton.gameObject.SetActive(false);
+                    missionPanel.SetActive(false);
+                    missionCompletePanel.SetActive(true);
                     break;
             }
         }
@@ -94,12 +125,22 @@ namespace UI
         {
             missionManager.StartMission();
         }
+        
+        private void OnPlayAgainClicked()
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        }
 
         private void OnDestroy()
         {
             if (startMissionButton != null)
             {
                 startMissionButton.onClick.RemoveListener(OnStartMissionClicked);
+            }
+            
+            if (playAgainButton != null)
+            {
+                playAgainButton.onClick.RemoveListener(OnPlayAgainClicked);
             }
         }
     }
