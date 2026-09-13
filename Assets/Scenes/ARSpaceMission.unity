@@ -240,6 +240,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ARTargetController
   targetObject: {fileID: 1201831547}
   missionManager: {fileID: 738127420}
+  planetController: {fileID: 0}
+  astronautController: {fileID: 0}
   targetType: 2
 --- !u!114 &29937339
 MonoBehaviour:
@@ -665,6 +667,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bd151e6a10b52a74d8289dd5c745e1f7, type: 3}
   m_PrefabInstance: {fileID: 1681719873}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &688619660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688619658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe5ba25874084e09850044ba15b01baa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AR.AstronautController
+  floatHeight: 0.1
+  floatSpeed: 2
+  rotationSpeed: 20
 --- !u!1 &738127417
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,6 +886,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0355422f3ce784b1e9e4390763b81dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ARObjectInteraction
+  missionManager: {fileID: 738127420}
+  planetController: {fileID: 920047234}
+--- !u!114 &920047234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920047227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea2b1728030d43348d163dd3faa2527b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AR.PlanetController
+  rotationSpeed: 30
 --- !u!1 &1178432433
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,6 +1022,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ARTargetController
   targetObject: {fileID: 920047227}
   missionManager: {fileID: 738127420}
+  planetController: {fileID: 920047234}
+  astronautController: {fileID: 0}
   targetType: 0
 --- !u!114 &1178432439
 MonoBehaviour:
@@ -1436,7 +1470,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bd151e6a10b52a74d8289dd5c745e1f7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 688619660}
   m_SourcePrefab: {fileID: 100100000, guid: bd151e6a10b52a74d8289dd5c745e1f7, type: 3}
 --- !u!1 &1793277963
 GameObject:
@@ -1686,6 +1723,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ARTargetController
   targetObject: {fileID: 688619658}
   missionManager: {fileID: 738127420}
+  planetController: {fileID: 0}
+  astronautController: {fileID: 688619660}
   targetType: 1
 --- !u!114 &1858211052
 MonoBehaviour:
@@ -1785,6 +1824,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: b635153924a26964a8ff847ab96f7af7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 920047233}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: b635153924a26964a8ff847ab96f7af7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 920047234}
   m_SourcePrefab: {fileID: 100100000, guid: b635153924a26964a8ff847ab96f7af7, type: 3}
 --- !u!1001 &1943335496
 PrefabInstance:

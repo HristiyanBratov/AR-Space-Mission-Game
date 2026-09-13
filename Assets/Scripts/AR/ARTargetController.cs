@@ -13,6 +13,14 @@ namespace AR
         [Header("Mission")]
         [SerializeField] 
         private MissionManager missionManager;
+        
+        [Header("Persistent Object")]
+        [SerializeField]
+        private PlanetController planetController;
+        
+        [Header("Visual Reaction")]
+        [SerializeField]
+        private AstronautController astronautController;
 
         private enum TargetType
         {
@@ -60,13 +68,31 @@ namespace AR
             );
 
             var isTracked = status.Status is Status.TRACKED or Status.EXTENDED_TRACKED;
+            
+            var isDirectlyTracked = status.Status is Status.TRACKED;
 
-            if (targetObject != null)
-            {
-                targetObject.SetActive(isTracked);
-            }
+            UpdateTargetVisibility(isTracked, isDirectlyTracked);
 
             UpdateMissionManager(isTracked);
+        }
+
+        private void UpdateTargetVisibility(bool isTracked, bool isDirectlyTracked)
+        {
+            if (targetObject == null)
+            {
+                return;
+            }
+            
+            // The Planet becomes persistent after activation:
+            if (targetType == TargetType.Planet && planetController != null && planetController.IsActivated)
+            {
+                targetObject.SetActive(true);
+                return;
+            }
+            
+            // Before activation, only direct image tracking
+            // should control the visibility of the object.
+            targetObject.SetActive(isDirectlyTracked);
         }
 
         private void UpdateMissionManager(bool isTracked)
@@ -84,6 +110,17 @@ namespace AR
 
                 case TargetType.Astronaut:
                     missionManager.SetAstronautDetected(isTracked);
+
+                    if (isTracked && 
+                        missionManager.CurrentState == MissionManager.MissionState.MissionActive &&
+                        missionManager.PlanetObjectiveCompleted)
+                    {
+                        if (astronautController != null)
+                        {
+                            astronautController.Activate();
+                        }
+                    }
+                    
                     break;
 
                 case TargetType.Spaceship:

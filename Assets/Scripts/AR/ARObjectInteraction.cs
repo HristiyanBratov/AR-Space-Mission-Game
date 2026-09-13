@@ -8,6 +8,10 @@ namespace AR
         [Header("Mission")]
         [SerializeField] 
         private MissionManager missionManager;
+        
+        [Header("Visual Feedback")]
+        [SerializeField]
+        private PlanetController planetController;
 
         private void OnMouseDown()
         {
@@ -23,6 +27,11 @@ namespace AR
             }
 
             missionManager.PlanetActivated();
+
+            if (planetController != null)
+            {
+                planetController.Activate();
+            }
         }
     }
 }
