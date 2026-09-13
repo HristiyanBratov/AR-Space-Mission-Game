@@ -7,19 +7,22 @@ namespace AR
     public class ARTargetController : MonoBehaviour
     {
         [Header("AR Object")]
-        [SerializeField] private GameObject targetObject;
+        [SerializeField] 
+        private GameObject targetObject;
 
         [Header("Mission")]
-        [SerializeField] private MissionManager missionManager;
+        [SerializeField] 
+        private MissionManager missionManager;
 
-        public enum TargetType
+        private enum TargetType
         {
             Planet,
             Astronaut,
             Spaceship
         }
 
-        [SerializeField] private TargetType targetType;
+        [SerializeField] 
+        private TargetType targetType;
 
         private ObserverBehaviour _observerBehaviour;
 
@@ -48,9 +51,7 @@ namespace AR
             }
         }
 
-        private void OnTargetStatusChanged(
-            ObserverBehaviour behaviour,
-            TargetStatus status)
+        private void OnTargetStatusChanged(ObserverBehaviour behaviour, TargetStatus status)
         {
             Debug.Log(
                 $"Target: {behaviour.TargetName} | " +
@@ -58,9 +59,7 @@ namespace AR
                 $"StatusInfo: {status.StatusInfo}"
             );
 
-            bool isTracked =
-                status.Status == Status.TRACKED ||
-                status.Status == Status.EXTENDED_TRACKED;
+            var isTracked = status.Status is Status.TRACKED or Status.EXTENDED_TRACKED;
 
             if (targetObject != null)
             {
@@ -88,7 +87,7 @@ namespace AR
                     break;
 
                 case TargetType.Spaceship:
-                    missionManager.SetThirdTargetDetected(isTracked);
+                    missionManager.SetSpaceshipDetected(isTracked);
                     break;
             }
         }

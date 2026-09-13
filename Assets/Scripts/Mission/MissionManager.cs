@@ -13,13 +13,18 @@ namespace Mission
         }
 
         [Header("Mission State")]
-        [SerializeField] private MissionState currentState = MissionState.Waiting;
+        [SerializeField] 
+        private MissionState currentState = MissionState.Waiting;
 
         private bool _planetDetected;
         private bool _astronautDetected;
         private bool _thirdTargetDetected;
 
         public MissionState CurrentState => currentState;
+        public bool PlanetObjectiveCompleted { get; private set; }
+
+        public bool AstronautObjectiveCompleted { get; private set; }
+        public bool SpaceshipObjectiveCompleted { get; private set; }
 
         public void SetPlanetDetected(bool detected)
         {
@@ -31,12 +36,23 @@ namespace Mission
         {
             _astronautDetected = detected;
             UpdateMissionState();
+            
+            // Astronaut is only an objective after the Planet objective is complete.
+            if (detected)
+            {
+                AstronautFound();
+            }
         }
 
-        public void SetThirdTargetDetected(bool detected)
+        public void SetSpaceshipDetected(bool detected)
         {
             _thirdTargetDetected = detected;
             UpdateMissionState();
+
+            if (detected)
+            {
+                SpaceshipFound();
+            }
         }
 
         private void UpdateMissionState()
@@ -46,13 +62,11 @@ namespace Mission
                 return;
             }
 
-            if (_planetDetected &&
-                _astronautDetected &&
-                _thirdTargetDetected)
+            if (_planetDetected && _astronautDetected && _thirdTargetDetected)
             {
                 currentState = MissionState.Ready;
 
-                Debug.Log("Mission is READY. All three targets detected.");
+                Debug.Log("Mission is READY! All three targets are detected.");
             }
         }
 
@@ -66,7 +80,79 @@ namespace Mission
 
             currentState = MissionState.MissionActive;
 
-            Debug.Log("Mission started!");
+            Debug.Log("Mission Started!");
+        }
+        
+        public void PlanetActivated()
+        {
+            if (currentState != MissionState.MissionActive)
+            {
+                Debug.Log("Planet cannot be activated. Mission is not active.");
+                return;
+            }
+
+            if (PlanetObjectiveCompleted)
+            {
+                return;
+            }
+
+            PlanetObjectiveCompleted = true;
+
+            Debug.Log("Planet objective completed!");
+            Debug.Log("Next objective: Find the Astronaut.");
+        }
+
+        private void AstronautFound()
+        {
+            if (currentState != MissionState.MissionActive)
+            {
+                return;
+            }
+
+            if (!PlanetObjectiveCompleted)
+            {
+                return;
+            }
+
+            if (AstronautObjectiveCompleted)
+            {
+                return;
+            }
+            
+            AstronautObjectiveCompleted = true;
+            
+            Debug.Log("Astronaut objective completed!");
+        }
+
+        private void SpaceshipFound()
+        {
+            if (currentState != MissionState.MissionActive)
+            {
+                return;
+            }
+
+            if (!AstronautObjectiveCompleted)
+            {
+                return;
+            }
+
+            if (SpaceshipObjectiveCompleted)
+            {
+                return;
+            }
+
+            SpaceshipObjectiveCompleted = true;
+
+            Debug.Log("Spaceship completed!");
+
+            CompleteMission();
+        }
+        
+        private void CompleteMission()
+        {
+            currentState = MissionState.MissionComplete;
+
+            Debug.Log("Mission completed!");
         }
     }
 }

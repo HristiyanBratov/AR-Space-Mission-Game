@@ -8,15 +8,20 @@ namespace UI
     public class MissionUI : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private MissionManager missionManager;
-        [SerializeField] private TMP_Text missionStatusText;
-        [SerializeField] private Button startMissionButton;
+        [SerializeField] 
+        private MissionManager missionManager;
+        
+        [SerializeField] 
+        private TMP_Text missionStatusText;
+        
+        [SerializeField] 
+        private Button startMissionButton;
 
         private void Start()
         {
             if (missionManager == null)
             {
-                Debug.LogError("MissionUI: MissionManager is not assigned.");
+                Debug.LogError("MissionUI: Mission Manager is not assigned.");
                 return;
             }
 
@@ -47,7 +52,7 @@ namespace UI
             switch (missionManager.CurrentState)
             {
                 case MissionManager.MissionState.Waiting:
-                    missionStatusText.text = "Find all three targets";
+                    missionStatusText.text = "Find all three targets!";
                     startMissionButton.gameObject.SetActive(false);
                     break;
 
@@ -57,12 +62,29 @@ namespace UI
                     break;
 
                 case MissionManager.MissionState.MissionActive:
-                    missionStatusText.text = "Mission Active";
+
+                    if (missionManager.SpaceshipObjectiveCompleted)
+                    {
+                        missionStatusText.text = "Objective Complete!";
+                    }
+                    else if (missionManager.AstronautObjectiveCompleted)
+                    {
+                        missionStatusText.text = "Objective: Find the Mission Object.";
+                    }
+                    else if (missionManager.PlanetObjectiveCompleted)
+                    {
+                        missionStatusText.text = "Objective: Find the Astronaut.";
+                    }
+                    else
+                    {
+                        missionStatusText.text = "Objective: Activate the Planet.";
+                    }
+
                     startMissionButton.gameObject.SetActive(false);
                     break;
 
                 case MissionManager.MissionState.MissionComplete:
-                    missionStatusText.text = "Mission Complete!";
+                    missionStatusText.text = "Mission Completed!";
                     startMissionButton.gameObject.SetActive(false);
                     break;
             }
