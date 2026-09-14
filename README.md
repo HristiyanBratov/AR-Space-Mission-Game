@@ -5,7 +5,7 @@ An interactive Augmented Reality (AR) space mission oriented game developed with
 The application allows the user to discover and interact with virtual space objects by scanning physical image cards with a camera. The three main AR targets represent: 
 - **Planet**
 - **Astronaut**
-- **Spaceship**.
+- **Spaceship**
 
 When a target is recognized by the camera, the corresponding 3D model is displayed in the real-world environment.
 
@@ -49,7 +49,7 @@ When a target is recognized by the camera, the corresponding 3D model is display
 3. The user detects all 3 AR targets by pointing the physical cards to the camera
 4. **Clich here to Start the Mission** is displayed letting the user begin the mission
 5. The user should complete all the objectives in order to finish the mission successfully
-5. Such objectievs are to **Find the Planet** | **Find the Astronaut** || **Find the Spaceship**
+5. Such objectievs are to **Find the Planet** | **Find the Astronaut** | **Find the Spaceship**
 6. The user has the option to **Play Again**
 
 ---
@@ -118,11 +118,11 @@ ARSpaceMission/
 
 # Mission System
 
-The mission logic is centralized in the `MissionManager`.
+The mission logic is centralized in the `MissionManager.cs`.
 
 This prevents the individual AR objects from independently deciding whether the mission has been completed.
 
-The MissionManager maintains the current mission state and objective completion status.
+The mission manager maintains the current mission state and objective completion status.
 
 ---
 
@@ -190,10 +190,6 @@ Clone the repository
 
 ```bash
 git clone https://github.com/HristiyanBratov/AR-Space-Mission-Game.git
-```
-
-```bash
-cd ARSpaceMission
 ```
 
 ---
@@ -357,7 +353,7 @@ After the project has been compiled successfully - Press **Play** in Unity.
 
 ## Test 7 – Play Again
 
-**Action:** Press Play Again.
+**Action:** Press **Click here to Play Again**.
 
 **Expected result:**
 
@@ -369,4 +365,4 @@ After the project has been compiled successfully - Press **Play** in Unity.
 
 ---
 
-Author: Hristiyan Bratov
+**Author: Hristiyan Bratov**
