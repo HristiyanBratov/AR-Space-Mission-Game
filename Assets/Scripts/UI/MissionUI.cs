@@ -7,6 +7,9 @@ namespace UI
 {
     public class MissionUI : MonoBehaviour
     {
+        [SerializeField]
+        private GameObject progressPanel;
+        
         [Header("References")]
         [SerializeField] 
         private MissionManager missionManager;
@@ -16,6 +19,15 @@ namespace UI
         
         [SerializeField] 
         private Button startMissionButton;
+        
+        [SerializeField] 
+        private TMP_Text planetObjectiveText;
+        
+        [SerializeField] 
+        private TMP_Text astronautObjectiveText;
+        
+        [SerializeField] 
+        private TMP_Text spaceshipObjectiveText;
         
         [SerializeField] 
         private GameObject missionPanel;
@@ -83,24 +95,37 @@ namespace UI
             switch (missionManager.CurrentState)
             {
                 case MissionManager.MissionState.Waiting:
+                    progressPanel.SetActive(false);
+                    
+                    missionStatusText.gameObject.SetActive(true);
                     missionStatusText.text = "Find all three targets!";
+                    
                     startMissionButton.gameObject.SetActive(false);
+                    
                     break;
 
                 case MissionManager.MissionState.Ready:
+                    progressPanel.SetActive(false);
+                    
+                    missionStatusText.gameObject.SetActive(true);
                     missionStatusText.text = "All targets detected!";
+                    
                     startMissionButton.gameObject.SetActive(true);
+                    
                     break;
 
                 case MissionManager.MissionState.MissionActive:
-
+                    progressPanel.SetActive(true);
+                    
+                    missionStatusText.gameObject.SetActive(true);
+                    
                     if (missionManager.SpaceshipObjectiveCompleted)
                     {
                         missionStatusText.text = "Objective Complete!";
                     }
                     else if (missionManager.AstronautObjectiveCompleted)
                     {
-                        missionStatusText.text = "Objective: Find the Mission Object.";
+                        missionStatusText.text = "Objective: Find the Spaceship.";
                     }
                     else if (missionManager.PlanetObjectiveCompleted)
                     {
@@ -112,13 +137,26 @@ namespace UI
                     }
 
                     startMissionButton.gameObject.SetActive(false);
+                    
                     break;
 
                 case MissionManager.MissionState.MissionComplete:
                     missionPanel.SetActive(false);
                     missionCompletePanel.SetActive(true);
+                    
                     break;
             }
+            
+            UpdateProgressUI();
+        }
+        
+        private void UpdateProgressUI()
+        {
+            planetObjectiveText.text = missionManager.PlanetObjectiveCompleted ? "Done: Activate the Planet" : "#1: Activate the Planet";
+
+            astronautObjectiveText.text = missionManager.AstronautObjectiveCompleted ? "Done: Find the Astronaut" : "#2: Find the Astronaut";
+
+            spaceshipObjectiveText.text = missionManager.SpaceshipObjectiveCompleted ? "Done: Discover the Spaceship" : "#3: Discover the Spaceship";
         }
 
         private void OnStartMissionClicked()

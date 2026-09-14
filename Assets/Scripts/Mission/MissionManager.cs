@@ -18,7 +18,7 @@ namespace Mission
 
         private bool _planetDetected;
         private bool _astronautDetected;
-        private bool _thirdTargetDetected;
+        private bool _spaceshipDetected;
 
         public MissionState CurrentState => currentState;
         public bool PlanetObjectiveCompleted { get; private set; }
@@ -46,7 +46,7 @@ namespace Mission
 
         public void SetSpaceshipDetected(bool detected)
         {
-            _thirdTargetDetected = detected;
+            _spaceshipDetected = detected;
             UpdateMissionState();
 
             if (detected)
@@ -62,7 +62,7 @@ namespace Mission
                 return;
             }
 
-            if (_planetDetected && _astronautDetected && _thirdTargetDetected)
+            if (_planetDetected && _astronautDetected && _spaceshipDetected)
             {
                 currentState = MissionState.Ready;
 
